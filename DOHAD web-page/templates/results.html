@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Paper Recommendations for "{{ keywords }}"</h1>
+        <form id="sortForm" method="post" action="/recommend">
+            <input type="hidden" name="keywords" value="{{ keywords }}">
+            <label for="sort_by">Sort by:</label>
+            <select name="sort_by" id="sort_by" onchange="document.getElementById('sortForm').submit();">
+                <option value="score" {% if sort_by == 'score' %}selected{% endif %}>Score</option>
+                <option value="publication_date" {% if sort_by == 'publication_date' %}selected{% endif %}>Publication Date</option>
+                <option value="cites" {% if sort_by == 'cites' %}selected{% endif %}>Citations</option>
+            </select>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>DOI</th>
+                    <th>Publication Date</th>
+                    <th>Score</th>
+                    <th>Citations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paper in papers %}
+                <tr>
+                    <td>{{ paper.title }}</td>
+                    <td><a href="https://doi.org/{{ paper.doi }}">{{ paper.doi }}</a></td>
+                    <td>{{ paper.publication_date }}</td>
+                    <td>{{ paper.normalized_score }}%</td>
+                    <td>{{ paper.cites }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>
