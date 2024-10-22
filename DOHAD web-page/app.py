@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request, render_template
 from py2neo import Graph
 import pandas as pd
@@ -19,6 +20,11 @@ def recommend():
     if not keywords:
         return render_template('index.html', error="Please enter some keywords.")
     
+    # Convert to lowercase, remove spaces around commas, and delete all punctuation except commas
+    keywords = keywords.lower().replace(', ', ',')  # Remove spaces after commas
+    keywords = re.sub(r'[^\w\s,]', '', keywords)  # Remove all punctuation except commas
+
+    # Split keywords into a list and remove extra spaces
     node_names = [keyword.strip() for keyword in keywords.split(',')]
 
     # Consulta única a Neo4j

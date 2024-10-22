@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper Recommendation System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+    <title>Paper Recommender</title>
+    <script>
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                document.getElementById("recommendForm").submit();
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="logo">
-        <img src="{{ url_for('static', filename='conicet.png') }}" alt="Health Logo">
-    </div>
-    <div class="container">
-        <h1>Paper Recommendation System</h1>
-        <form id="recommendForm" action="/recommend" method="post">
-            <label for="keywords">Enter keywords (comma-separated):</label><br>
-            <input type="text" id="keywords" name="keywords"><br>
-            <input type="submit" value="Recommend">
-        </form>
-        <ul id="keywordList"></ul>
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
-    </div>
+    <form id="recommendForm" action="/recommend" method="POST">
+        <label for="keywords">Enter keywords:</label>
+        <input type="text" id="keywords" name="keywords" onkeydown="checkEnter(event)" required>
+        <label for="sort_by">Sort by:</label>
+        <select name="sort_by">
+            <option value="score">Score</option>
+            <option value="publication_date">Publication Date</option>
+            <option value="cites">Citations</option>
+        </select>
+        <button type="submit">Recommend</button>
+    </form>
+
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
 </body>
 </html>
