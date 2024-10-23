@@ -45,8 +45,11 @@ def recommend():
         # Asegurarse de que 'total_score' no tenga valores nulos
         result['total_score'] = pd.to_numeric(result['total_score'], errors='coerce').fillna(0)
 
-        # Normalización de la puntuación a un valor porcentual
-        result['normalized_score'] = (result['total_score'] / result['total_score'].max() * 100).round(2)
+        # Sumar los puntajes de los top 10
+        total_top_10_score = result['total_score'].sum()
+
+        # Normalizar los puntajes para que los primeros 10 sumen 100%
+        result['normalized_score'] = (result['total_score'] / total_top_10_score * 100).round(2)
 
         # Ordenar resultados según la preferencia del usuario
         if sort_by == 'publication_date':

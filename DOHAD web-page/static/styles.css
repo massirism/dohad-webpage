@@ -77,7 +77,7 @@ button:hover, input[type="submit"]:hover {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
 }
 
 .keyword {
