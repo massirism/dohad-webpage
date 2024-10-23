@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='conicet.png') }}" alt="Health Logo">
+    </div>
     <div class="container">
         <h1>Paper Recommendations for "{{ keywords }}"</h1>
         <form id="sortForm" method="post" action="/recommend">
