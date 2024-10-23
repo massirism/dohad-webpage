@@ -43,27 +43,21 @@ def recommend():
         result = result.nlargest(10, 'total_score')
 
         # Asegurarse de que 'total_score' no tenga valores nulos
-        result['total_score'] = pd.to_numeric(result['total_score'], errors='coerce')
-        result = result.dropna(subset=['total_score'])
+        result['total_score'] = pd.to_numeric(result['total_score'], errors='coerce').fillna(0)
 
-        # Calcular el total de los scores
-        total_score_sum = result['total_score'].sum()
+        # Normalización de la puntuación a un valor porcentual
+        result['normalized_score'] = (result['total_score'] / result['total_score'].max() * 100).round(2)
 
-        if total_score_sum > 0:
-            # Calcular el porcentaje para cada paper
-            result['normalized_score'] = (result['total_score'] / total_score_sum * 100).round(2)
-        else:
-            result['normalized_score'] = 0
-
-        # Ordenar según la preferencia del usuario
+        # Ordenar resultados según la preferencia del usuario
         if sort_by == 'publication_date':
-            result = result.sort_values(by='publication_date', ascending=False)
+            result = result.sort_values(by=['publication_date'], ascending=False)
         elif sort_by == 'cites':
-            result = result.sort_values(by='cites', ascending=False)
+            result = result.sort_values(by=['cites'], ascending=False)
         else:
-            result = result.sort_values(by='total_score', ascending=False)
+            result = result.sort_values(by=['normalized_score'], ascending=False)
 
-    return render_template('results.html', papers=result.to_dict('records'), keywords=keywords, sort_by=sort_by)
+    papers = result.to_dict(orient='records')
+    return render_template('results.html', papers=papers, keywords=keywords, sort_by=sort_by)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)

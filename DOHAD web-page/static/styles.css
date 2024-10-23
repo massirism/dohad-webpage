@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-     /* background: url("{{ url_for('static', filename='lienzo.png') }}") no-repeat center center fixed; */
     background: url("lienzo.png") no-repeat center center fixed;
     background-size: cover;
     margin: 0;
@@ -11,8 +10,8 @@ body {
 .logo {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, -50%); /* Centrando horizontalmente y moviendo verticalmente */
-    top: 15%; /* Mover la imagen hacia abajo el 25% del alto del viewport */
+    transform: translate(-50%, -50%);
+    top: 15%;
 }
 
 .logo img {
@@ -20,18 +19,16 @@ body {
 }
 
 .container {
-    max-width: 1000px;
-    margin: 0 auto; /* Center horizontally */
+    max-width: 60%;
+    margin: 12% auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    position: absolute; /* Make it positionable */
-    top: 50%; /* Position vertically from the top */
-    left: 50%; /* Position horizontally from the left */
-    transform: translate(-50%, -50%); /* Adjust position for centering */
-  }
-  
+    position: relative;
+    overflow-x: auto;
+}
+
 h1 {
     text-align: center;
     color: #0056b3;
@@ -76,7 +73,6 @@ button:hover, input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-
 #keywordContainer {
     margin-top: 10px;
     display: flex;
@@ -109,4 +105,35 @@ button:hover, input[type="submit"]:hover {
     position: absolute;
     top: -5px;
     right: -5px;
+}
+
+/* Adjust the table for responsiveness */
+.table-wrapper {
+    overflow-x: auto; /* Enables scrolling if the content overflows */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+td a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
 }
